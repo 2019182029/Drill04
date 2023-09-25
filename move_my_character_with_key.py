@@ -6,14 +6,22 @@
 
 from pico2d import *
 
-open_canvas()
-ground = load_image('TUK_GROUND')
+ground_width, ground_height = 1280, 1024
+frame = 0
+
+open_canvas(ground_width, ground_height)
+ground = load_image('TUK_GROUND.png')
 character = load_image('character.png')
 
 def handle_events() :
     pass
 
-while(running) :
-    pass
+while(1) :
+    clear_canvas()
+    ground.draw(ground_width // 2, ground_height // 2)
+    character.clip_draw(frame * 64, 64, 64, 64, ground_width // 2, ground_height // 2)
+    update_canvas()
+    frame = (frame + 1) % 4
+    delay(1)
 
 close_canvas()
