@@ -40,16 +40,12 @@ def handle_events() :
             keydown = False
             if (event.key == SDLK_LEFT) :
                 xdir += 1
-                yframe = 128
             if (event.key == SDLK_RIGHT) :
                 xdir -= 1
-                yframe = 64
             if (event.key == SDLK_DOWN) :
                 ydir += 1
-                yframe = 192
             if (event.key == SDLK_UP) :
                 ydir -= 1
-                yframe = 0
 
 while(running) :
     clear_canvas()
@@ -57,12 +53,20 @@ while(running) :
     character.clip_draw(frame * 64, yframe, 64, 64, x, y, 196, 196)
     update_canvas()
     handle_events()
+    x += xdir * 10
+    y += ydir * 10
     if (keydown == True) :
         frame = (frame + 1) % 4
+        if (x <= 0) :
+            x = 0
+        elif (x >= ground_width) :
+            x = ground_width
+        if (y <= 0) :
+            y = 0
+        elif (y >= ground_height) :
+            y = ground_height
     else :
         frame = 0
-    x += xdir * 5
-    y += ydir * 5
     delay(0.1)
 
 close_canvas()
