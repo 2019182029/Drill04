@@ -7,6 +7,7 @@
 from pico2d import *
 
 ground_width, ground_height = 1280, 1024
+running = True
 frame = 0
 
 open_canvas(ground_width, ground_height)
@@ -14,13 +15,19 @@ ground = load_image('TUK_GROUND.png')
 character = load_image('character.png')
 
 def handle_events() :
-    pass
+    global running
+    events = get_events()
+    for event in events :
+        if (event.type == SDL_KEYDOWN) :
+            if (event.key == SDLK_ESCAPE) :
+                running = False
 
-while(1) :
+while(running) :
     clear_canvas()
     ground.draw(ground_width // 2, ground_height // 2)
     character.clip_draw(frame * 64, 64, 64, 64, ground_width // 2, ground_height // 2)
     update_canvas()
+    handle_events()
     frame = (frame + 1) % 4
     delay(1)
 
