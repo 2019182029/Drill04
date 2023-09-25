@@ -17,7 +17,7 @@ def handle_events() :
     global running
     global keydown
     global xdir, ydir
-    
+
     events = get_events()
     for event in events :
         if (event.type == SDL_QUIT) :
@@ -61,7 +61,7 @@ while(running) :
     x += xdir * 10
     y += ydir * 10
 
-    if (keydown != 0) :               # keydown != 0이라면 캐릭터가 움직인다.
+    if (keydown != 0 and (xdir != 0 or ydir != 0)) :        # keydown != 0이고 반대 방향키를 동시에 누르는 것이 아니라면 캐릭터가 움직인다.
         frame = (frame + 1) % 4
         if(xdir > 0) :                # 캐릭터의 이동 방향에 따라
             yframe = 64               # 캐릭터가 보는 방향이 달라진다.
@@ -80,7 +80,7 @@ while(running) :
             y = 0
         elif (y >= ground_height) :
             y = ground_height
-    else :                            # keydown == 0이라면 정지된 캐릭터가 출력된다.
+    else :                            # keydown == 0이거나 반대 방향키를 동시에 누르면 정지된 캐릭터가 출력된다.
         frame = 0
     delay(0.1)
 
