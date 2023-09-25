@@ -26,11 +26,23 @@ def handle_events() :
         elif (event.type == SDL_KEYDOWN) :
             if (event.key == SDLK_LEFT) :
                 xdir -= 1
+            if (event.key == SDLK_RIGHT) :
+                xdir += 1
+            if (event.key == SDLK_DOWN) :
+                ydir -= 1
+            if (event.key == SDLK_UP) :
+                ydir += 1
             if (event.key == SDLK_ESCAPE) :
                 running = False 
         elif (event.type == SDL_KEYUP) :
             if (event.key == SDLK_LEFT) :
                 xdir += 1
+            if (event.key == SDLK_RIGHT) :
+                xdir -= 1
+            if (event.key == SDLK_DOWN) :
+                ydir += 1
+            if (event.key == SDLK_UP) :
+                ydir -= 1
 
 while(running) :
     clear_canvas()
@@ -40,6 +52,7 @@ while(running) :
     handle_events()
     frame = (frame + 1) % 4
     x += xdir * 5
+    y += ydir * 5
     delay(0.1)
 
 close_canvas()
