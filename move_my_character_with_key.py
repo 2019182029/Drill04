@@ -14,8 +14,10 @@ ground = load_image('TUK_GROUND.png')
 character = load_image('character.png')
 
 def handle_events() :
-    global running, keydown
+    global running
+    global keydown
     global xdir, ydir
+    
     events = get_events()
     for event in events :
         if (event.type == SDL_QUIT) :
@@ -55,12 +57,14 @@ while(running) :
     character.clip_draw(frame * 64, yframe, 64, 64, x, y, 196, 196)
     update_canvas()
     handle_events()
+
     x += xdir * 10
     y += ydir * 10
-    if (keydown != 0) :
+
+    if (keydown != 0) :               # keydown != 0이라면 캐릭터가 움직인다.
         frame = (frame + 1) % 4
-        if(xdir > 0) :
-            yframe = 64
+        if(xdir > 0) :                # 캐릭터의 이동 방향에 따라
+            yframe = 64               # 캐릭터가 보는 방향이 달라진다.
         elif(xdir < 0) :
             yframe = 128
         if(ydir > 0) :
@@ -68,15 +72,15 @@ while(running) :
         elif(ydir < 0) :
             yframe = 192
 
-        if (x <= 0) :
-            x = 0
+        if (x <= 0) :                 # 화면 경계선에다다르면
+            x = 0                     # 더 이상 진행하지 않는다.
         elif (x >= ground_width) :
             x = ground_width
         if (y <= 0) :
             y = 0
         elif (y >= ground_height) :
             y = ground_height
-    else :
+    else :                            # keydown == 0이라면 정지된 캐릭터가 출력된다.
         frame = 0
     delay(0.1)
 
