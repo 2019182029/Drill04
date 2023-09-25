@@ -16,43 +16,38 @@ character = load_image('character.png')
 def handle_events() :
     global running, keydown
     global xdir, ydir
-    global yframe
     events = get_events()
     for event in events :
         if (event.type == SDL_QUIT) :
             running = False
         elif (event.type == SDL_KEYDOWN) :
-            if (event.key == SDLK_LEFT) :
-                keydown += 1
-                xdir -= 1
-                yframe = 128
-            if (event.key == SDLK_RIGHT) :
-                keydown += 1
-                xdir += 1
-                yframe = 64
-            if (event.key == SDLK_DOWN) :
-                keydown += 1
-                ydir -= 1
-                yframe = 192
             if (event.key == SDLK_UP) :
                 keydown += 1
                 ydir += 1
-                yframe = 0
+            if (event.key == SDLK_RIGHT) :
+                keydown += 1
+                xdir += 1
+            if (event.key == SDLK_LEFT) :
+                keydown += 1
+                xdir -= 1
+            if (event.key == SDLK_DOWN) :
+                keydown += 1
+                ydir -= 1
             if (event.key == SDLK_ESCAPE) :
                 running = False 
         elif (event.type == SDL_KEYUP) :
-            if (event.key == SDLK_LEFT) :
-                keydown -= 1
-                xdir += 1
-            if (event.key == SDLK_RIGHT) :
-                keydown -= 1
-                xdir -= 1
-            if (event.key == SDLK_DOWN) :
-                keydown -= 1
-                ydir += 1
             if (event.key == SDLK_UP) :
                 keydown -= 1
                 ydir -= 1
+            if (event.key == SDLK_RIGHT) :
+                keydown -= 1
+                xdir -= 1
+            if (event.key == SDLK_LEFT) :
+                keydown -= 1
+                xdir += 1
+            if (event.key == SDLK_DOWN) :
+                keydown -= 1
+                ydir += 1
 
 while(running) :
     clear_canvas()
@@ -64,6 +59,15 @@ while(running) :
     y += ydir * 10
     if (keydown != 0) :
         frame = (frame + 1) % 4
+        if(xdir > 0) :
+            yframe = 64
+        elif(xdir < 0) :
+            yframe = 128
+        if(ydir > 0) :
+            yframe = 0
+        elif(ydir < 0) :
+            yframe = 192
+
         if (x <= 0) :
             x = 0
         elif (x >= ground_width) :
