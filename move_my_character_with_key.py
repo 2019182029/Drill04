@@ -3,7 +3,8 @@
 from pico2d import *
 
 ground_width, ground_height = 1280, 1024
-running, keydown = True, False                  # keydown이 True라면 애니메이션이, False라면 정지된 캐릭터가 출력된다.
+running= True
+keydown = 0                                     # keydown이 0이라면 애니메이션이, !0이라면 정지된 캐릭터가 출력된다.
 frame, yframe = 0, 192                          # yframe은 이동하는 방향에 따라 캐릭터가 향하는 방향 또한 바뀌도록 한다. 
 x, y = ground_width // 2, ground_height // 2
 xdir, ydir = 0, 0
@@ -21,30 +22,36 @@ def handle_events() :
         if (event.type == SDL_QUIT) :
             running = False
         elif (event.type == SDL_KEYDOWN) :
-            keydown = True
             if (event.key == SDLK_LEFT) :
+                keydown += 1
                 xdir -= 1
                 yframe = 128
             if (event.key == SDLK_RIGHT) :
+                keydown += 1
                 xdir += 1
                 yframe = 64
             if (event.key == SDLK_DOWN) :
+                keydown += 1
                 ydir -= 1
                 yframe = 192
             if (event.key == SDLK_UP) :
+                keydown += 1
                 ydir += 1
                 yframe = 0
             if (event.key == SDLK_ESCAPE) :
                 running = False 
         elif (event.type == SDL_KEYUP) :
-            keydown = False
             if (event.key == SDLK_LEFT) :
+                keydown -= 1
                 xdir += 1
             if (event.key == SDLK_RIGHT) :
+                keydown -= 1
                 xdir -= 1
             if (event.key == SDLK_DOWN) :
+                keydown -= 1
                 ydir += 1
             if (event.key == SDLK_UP) :
+                keydown -= 1
                 ydir -= 1
 
 while(running) :
@@ -55,7 +62,7 @@ while(running) :
     handle_events()
     x += xdir * 10
     y += ydir * 10
-    if (keydown == True) :
+    if (keydown != 0) :
         frame = (frame + 1) % 4
         if (x <= 0) :
             x = 0
