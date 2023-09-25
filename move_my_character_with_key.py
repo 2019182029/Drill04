@@ -1,8 +1,4 @@
-# 1. 상하좌우 방향키를 이용하여 이동
-# 2. 캐릭터가 작을 경우 확대
-
-# 배경 : TUK_GROUND.png
-# 캐릭터 : character.png
+# 상하좌우 방향키를 이용하여 이동
 
 from pico2d import *
 
@@ -58,7 +54,7 @@ def handle_events() :
 while(running) :
     clear_canvas()
     ground.draw(ground_width // 2, ground_height // 2)
-    character.clip_draw(frame * 64, yframe, 64, 64, x, y)
+    character.clip_draw(frame * 64, yframe, 64, 64, x, y, 196, 196)
     update_canvas()
     handle_events()
     if (keydown == True) :
