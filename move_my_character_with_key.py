@@ -7,8 +7,8 @@
 from pico2d import *
 
 ground_width, ground_height = 1280, 1024
-running = True
-frame, yframe = 0, 192
+running, keydown = True, False                  # keydown이 True라면 애니메이션이, False라면 정지된 캐릭터가 출력된다.
+frame, yframe = 0, 192                          # yframe은 이동하는 방향에 따라 캐릭터가 향하는 방향 또한 바뀌도록 한다. 
 x, y = ground_width // 2, ground_height // 2
 xdir, ydir = 0, 0
 
@@ -17,7 +17,7 @@ ground = load_image('TUK_GROUND.png')
 character = load_image('character.png')
 
 def handle_events() :
-    global running
+    global running, keydown
     global xdir, ydir
     global yframe
     events = get_events()
@@ -25,6 +25,7 @@ def handle_events() :
         if (event.type == SDL_QUIT) :
             running = False
         elif (event.type == SDL_KEYDOWN) :
+            keydown = True
             if (event.key == SDLK_LEFT) :
                 xdir -= 1
                 yframe = 128
@@ -40,6 +41,7 @@ def handle_events() :
             if (event.key == SDLK_ESCAPE) :
                 running = False 
         elif (event.type == SDL_KEYUP) :
+            keydown = False
             if (event.key == SDLK_LEFT) :
                 xdir += 1
                 yframe = 128
@@ -59,7 +61,10 @@ while(running) :
     character.clip_draw(frame * 64, yframe, 64, 64, x, y)
     update_canvas()
     handle_events()
-    frame = (frame + 1) % 4
+    if (keydown == True) :
+        frame = (frame + 1) % 4
+    else :
+        frame = 0
     x += xdir * 5
     y += ydir * 5
     delay(0.1)
